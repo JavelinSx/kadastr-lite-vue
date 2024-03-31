@@ -1,6 +1,6 @@
 <template>
     <img class="index-background-img" :src="backgroundImage">
-
+    
     <v-container class="index-container">
         <v-row>
             <v-col class="index-phone">
@@ -20,8 +20,8 @@
             </v-col>
 
         </v-row>
-
-
+        
+        
 
         <v-sheet>
             <v-stepper  :model-value="stepValue" hide-actions>
@@ -38,27 +38,24 @@
                     <v-stepper-item value="4">
                     </v-stepper-item>
                 </v-stepper-header>
-                <v-stepper-window>
+                <v-stepper-window >
                     <v-stepper-window-item value="1">
-                            <v-card title="Выберите вид кадастровых работ">
-                                <img :src="boundares">
-                                <v-checkbox
-                                    label="Уточнение границ земельного участка(межевание)"
+                            <v-banner-text class="text-h6">Какие кадастровые работы необходимы?</v-banner-text>
+                            <div class="d-flex align-center flex-column ga-5">
+                                <v-card 
+                                    variant="tonal"
+                                    v-for="(item) in itemsForStepperService"
+                                    :key="item.id"
+                                    :class=" selectedStepperService.includes(item.id) ? ' index-card-checkbox index-checkbox-verify' : 'index-card-checkbox' "
                                 >
-                                
-                                </v-checkbox>
-                            </v-card>
-                            <v-card title="lorem1">
-                                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                            </v-card>
-                            <v-card title="lorem1">
-                                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                            </v-card>
-                            <v-card title="lorem1">
-                                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                            </v-card>
-
-
+                                    <v-img :src="item.img"/>
+                                    <v-checkbox
+                                        label="Уточнение границ земельного участка(межевание)"
+                                        @click.stop="toggleStepperService(item.id)"
+                                    >  
+                                    </v-checkbox>
+                                </v-card>
+                            </div>
                     </v-stepper-window-item>
                     <v-stepper-window-item value="2">
                         <v-card title="lorem2">
@@ -85,7 +82,6 @@
 
     </v-container>
 
-
 </template>
 
 <script setup>
@@ -94,7 +90,34 @@ import boundares from '../images/services/boundaries.jpg'
 import {ref} from 'vue'
 const stepperItems = ['','','','']
 const stepperQuestions = ['Необходимый вид кадастровых работ', 'Где требуется провести работы?', 'Пожелания по срочности выполнения', 'Ваш номер телефона для связи']
-const stepValue = ref(1)
+const stepValue = ref(0)
+const selectedStepperService = ref([])
+const itemsForStepperService = [
+    {
+        id:1,
+        img: boundares
+    },
+    {
+        id:2,
+        img: boundares
+    },
+    {
+        id:3,
+        img: boundares
+    },
+    {
+        id:4,
+        img: boundares
+    },
+]
+const toggleStepperService = (id) => {
+    const index = selectedStepperService.value.indexOf(id)
+    if(index > -1){
+        selectedStepperService.value.splice(index, 1)
+    } else {
+        selectedStepperService.value.push(id)
+    }
+}
 const nextStep = () => {
     stepValue.value = stepValue.value+1
 }
@@ -105,16 +128,30 @@ const prevStep = () => {
 </script>
 
 <style lang="scss">
+.index-card-checkbox{
+    border: 1px solid transparent;
+    transition: .5s ease-in-out;
+}
+.index-checkbox-verify{
+    border: 1px #8fee69 solid;
+}
+.v-banner-text{
+    text-align: center;
+    padding-inline-end: 0;
+    margin-bottom: 1.5rem;
+}
+.v-label{
+    opacity: 1;
+}
 .v-window-item{
     .v-card-title{
-        font-size: 1rem;
+        font-size: 1.2rem;
+        white-space: normal;
+        text-align: center;
     }
-
-    img{
-        height: 300px;
-        object-fit: cover;
+    .v-input__control{
+        padding-top: 22px;
     }
-    
 }
 .index-container{
     color: #eeeeee;

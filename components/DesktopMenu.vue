@@ -12,7 +12,6 @@
                 title="Плесецк кадастр"
             ></v-list-item>
         </v-list>
-
         <v-divider></v-divider>
 
         <MenuContent></MenuContent>
