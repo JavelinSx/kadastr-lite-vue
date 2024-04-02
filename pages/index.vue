@@ -14,71 +14,14 @@
                 cols="12" 
                 class="text-center">
                 <v-container class="index-title-container">
-                    <h1 class="index-title">Кадастровые работы под ключ</h1>
-                    <h4 class="index-subtitle">Уточните границы, оформите дом или квартиру и будьте спокойны, что все сделали верно и по закону</h4>
+                    <h1 class="index-title">Кадастровые и геодезические работы под ключ</h1>
+                    <h4 class="index-subtitle">Уточните границы, оформите недвижимость и гарантируйте точность съемок. Будьте уверены в правильности и законности каждого шага.</h4>
                 </v-container>
             </v-col>
 
         </v-row>
-        
-        
-
-        <v-sheet>
-            <v-stepper  :model-value="stepValue" hide-actions>
-                <v-stepper-header float>
-                    <v-stepper-item value="1">
-                    </v-stepper-item>
-                    <v-divider></v-divider>
-                    <v-stepper-item value="2">
-                    </v-stepper-item>
-                    <v-divider></v-divider>
-                    <v-stepper-item value="3">
-                    </v-stepper-item>
-                    <v-divider></v-divider>
-                    <v-stepper-item value="4">
-                    </v-stepper-item>
-                </v-stepper-header>
-                <v-stepper-window >
-                    <v-stepper-window-item value="1">
-                            <v-banner-text class="text-h6">Какие кадастровые работы необходимы?</v-banner-text>
-                            <div class="d-flex align-center flex-column ga-5">
-                                <v-card 
-                                    variant="tonal"
-                                    v-for="(item) in itemsForStepperService"
-                                    :key="item.id"
-                                    :class=" selectedStepperService.includes(item.id) ? ' index-card-checkbox index-checkbox-verify' : 'index-card-checkbox' "
-                                >
-                                    <v-img :src="item.img"/>
-                                    <v-checkbox
-                                        label="Уточнение границ земельного участка(межевание)"
-                                        @click.stop="toggleStepperService(item.id)"
-                                    >  
-                                    </v-checkbox>
-                                </v-card>
-                            </div>
-                    </v-stepper-window-item>
-                    <v-stepper-window-item value="2">
-                        <v-card title="lorem2">
-                            <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                        </v-card>
-                    </v-stepper-window-item>
-                    <v-stepper-window-item value="3">
-                        <v-card title="lorem3">
-                            <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                        </v-card>
-                    </v-stepper-window-item>
-                    <v-stepper-window-item value="4">
-                        <v-card title="lorem4">
-                            <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-                        </v-card>
-                    </v-stepper-window-item>
-                </v-stepper-window>
-                <v-stepper-actions next-text="Дальше" prev-text="Назад" @click:next="nextStep" @click:prev="prevStep" >
-                    
-                </v-stepper-actions>
-
-            </v-stepper>
-        </v-sheet>
+         
+        <StepperService></StepperService>
 
     </v-container>
 
@@ -86,77 +29,15 @@
 
 <script setup>
 import backgroundImage from '../images/diploma.webp'
-import boundares from '../images/services/boundaries.jpg'
-import {ref} from 'vue'
-const stepperItems = ['','','','']
-const stepperQuestions = ['Необходимый вид кадастровых работ', 'Где требуется провести работы?', 'Пожелания по срочности выполнения', 'Ваш номер телефона для связи']
-const stepValue = ref(0)
-const selectedStepperService = ref([])
-const itemsForStepperService = [
-    {
-        id:1,
-        img: boundares
-    },
-    {
-        id:2,
-        img: boundares
-    },
-    {
-        id:3,
-        img: boundares
-    },
-    {
-        id:4,
-        img: boundares
-    },
-]
-const toggleStepperService = (id) => {
-    const index = selectedStepperService.value.indexOf(id)
-    if(index > -1){
-        selectedStepperService.value.splice(index, 1)
-    } else {
-        selectedStepperService.value.push(id)
-    }
-}
-const nextStep = () => {
-    stepValue.value = stepValue.value+1
-}
-const prevStep = () => {
-    stepValue.value = stepValue.value-1
-}
 
 </script>
 
 <style lang="scss">
-.index-card-checkbox{
-    border: 1px solid transparent;
-    transition: .5s ease-in-out;
-}
-.index-checkbox-verify{
-    border: 1px #8fee69 solid;
-}
-.v-banner-text{
-    text-align: center;
-    padding-inline-end: 0;
-    margin-bottom: 1.5rem;
-}
-.v-label{
-    opacity: 1;
-}
-.v-window-item{
-    .v-card-title{
-        font-size: 1.2rem;
-        white-space: normal;
-        text-align: center;
-    }
-    .v-input__control{
-        padding-top: 22px;
-    }
-}
+
 .index-container{
     color: #eeeeee;
     max-width: 100vw;
-    height: 300px;
+    height: 470px;
     max-height: 600px;
     position: relative;
     margin: 0;
@@ -181,7 +62,7 @@ const prevStep = () => {
 }
 .index-background-img{
     position: relative; // Теперь правильно установлено для родителя
-    min-height: 370px;
+    min-height: 470px;
     max-height: 800px;
     width: 100%;
     object-fit: cover;
