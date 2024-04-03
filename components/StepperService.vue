@@ -1,7 +1,7 @@
 <template>
     <v-sheet>
         <v-stepper
-            :model-value="stepValue"
+            :model-value="stepValue"     
             hide-actions
         >
             <StepperHeaders></StepperHeaders>
@@ -12,11 +12,15 @@
 </template>
 
 <script setup>
-import {inject} from 'vue'
+import { useStepperStore } from '@/stores/stepperStore';
+import { storeToRefs } from 'pinia';
+import {watch} from 'vue'
 import StepperActions from './StepperActions'
 import StepperHeaders from './StepperHeaders'
 import StepperWindow from './StepperWindow'
 
-const stepValue = inject('stepValue')
-
+const stepperStore = useStepperStore();
+const {
+    stepValue
+} = storeToRefs(stepperStore)
 </script>

@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
+    '@pinia/nuxt'
     //...
   ],
   vite: {
@@ -22,5 +23,17 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+    plugins: [
+      {
+        name: 'force-pinia-hmr',
+        handleHotUpdate({ file, server }) {
+          if (file.endsWith('.js') && file.includes('/stores/')) {
+            server.ws.send({
+              type: 'full-reload',
+            });
+          }
+        },
+      },
+    ],
   },
 })

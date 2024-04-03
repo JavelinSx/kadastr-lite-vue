@@ -26,8 +26,12 @@
 </template>
 
 <script setup>
-import {inject} from 'vue'
+import { useStepperStore } from '@/stores/stepperStore';
+import { storeToRefs } from 'pinia';
+const stepperStore = useStepperStore();
+const {
+    stepValue
+} = storeToRefs(stepperStore)
 
-const stepValue = inject('stepValue')
 
 </script>
