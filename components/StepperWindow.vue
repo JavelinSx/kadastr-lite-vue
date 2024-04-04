@@ -20,32 +20,40 @@
                     </v-radio-group>
         </v-stepper-window-item>
         <v-stepper-window-item value="2">
-            <div class="d-flex align-center flex-column ga-5">
-                <v-card 
-                    variant="tonal"
-                    v-for="item in itemsService[selectStepOne-1]"
-                    :key="item.id"
-                    :class="{'index-card-checkbox-verify': stepperStore.checkSelectOptionStepTwo(item.id), 'w-100 index-card-checkbox': true}"
-                >
-                    <v-img :src="item.img"/>
-                    <v-checkbox
-                        v-model="item.defaultValue"
-                        :label="item.label"
-                        @change="toggleStepperTwo(item.id, item)"
+            <v-row>
+                <v-col>
+                <v-radio-group v-model="selectStepTwo" class="d-flex align-center flex-column">
+                    <v-card 
+                        v-for="item in itemsService[selectStepOne-1]"
+                        :key="item.id"
+                        variant="tonal"
+                        :class=" selectStepTwo===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
                     >
-                    </v-checkbox>
-                </v-card>
-            </div>
+                        <v-img :src="item.img"/>
+                        <v-radio
+                            :value="item.id"
+                            :label="item.label"
+                            @click.stop="stepperStore.updateSelectStepTwo(selectStepTwo)"
+                        >
+                        </v-radio>
+                    </v-card>
+                </v-radio-group>
+                </v-col>
+            </v-row>
         </v-stepper-window-item>
+
         <v-stepper-window-item value="3">
-            <v-card title="lorem3">
-                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-            </v-card>
+
+            <v-autocomplete
+                v-model="selectStepThree"
+                :items="itemsArea"
+                label="Населённый пункт"
+                @update:search="stepperStore.searchArea"
+            ></v-autocomplete>
+
         </v-stepper-window-item>
         <v-stepper-window-item value="4">
-            <v-card title="lorem4">
-                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-            </v-card>
+            
         </v-stepper-window-item>
         <v-stepper-window-item value="5">
             <v-card title="lorem5">
@@ -67,27 +75,30 @@ const {
     selectStepFour,
     itemsForStepperService,
     itemsService,
-    stepValue
+    itemsArea,
+    stepValue,
+    stepThreeInput
 } = storeToRefs(stepperStore)
-
-const toggleStepperTwo = (id) => {
-    const index = selectStepTwo.value.indexOf(id);
-    if (index > -1) {
-        selectStepTwo.value.splice(index, 1);
-    } else {
-        selectStepTwo.value.push(id);
-    }
-    itemsService.value[id-1].defaultValue = !itemsService.value[id-1].defaultValue
-
-}
-
+const test = (v) => console.log(v)
+watch(selectStepThree, () => {
+    console.log(selectStepThree.value)
+})
 watch(selectStepOne, () => {
     stepperStore.toggleButtonNext()
 })
 </script>
 
 <style lang="scss">
-
+.v-window{
+    .v-col{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+.v-selection-control__wrapper{
+    padding-right: 0.5rem;
+}
 .stepper-img{
     max-height: 300px;
 }

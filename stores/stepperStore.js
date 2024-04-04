@@ -1,6 +1,6 @@
 // stores/stepperStore.js
 import { defineStore } from 'pinia';
-import { itemsForStepperServiceI, itemsServiceI } from '@/utils/data'; // Импорт из вашего файла data.js
+import { itemsForStepperServiceI, itemsServiceI, itemsAreaI, geoFetch } from '@/utils/data'; // Импорт из вашего файла data.js
 
 export const useStepperStore = defineStore('stepper', {
   state: () => ({
@@ -9,27 +9,44 @@ export const useStepperStore = defineStore('stepper', {
     isNextDisabled: true,
     isPrevDisabled: true,
     selectStepOne: 0,
-    selectStepTwo: [],
-    selectStepThree: null,
+    selectStepTwo: 0,
+    selectStepThree: '',
     selectStepFour: null,
     totalStep: 4,
     itemsForStepperService: itemsForStepperServiceI,
-    itemsService: itemsServiceI
+    itemsService: itemsServiceI,
+    itemsArea: [
+      'Федово',
+      'Плесецк',
+      'Савинский'
+    ]
   }),
   actions: {
-    updateStepValue(value) {
+    searchArea: async function(value) {
+      try {
+
+        const result = await geoFetch(value);
+        const itemTest = result.response.GeoObjectCollection.featureMember;
+        console.log(itemTest)
+        const transformArea = itemTest.map((item) => item.GeoObject.name)
+        this.itemsArea = transformArea
+      } catch (error) {
+        console.error("Ошибка при выполнении geoFetch: ", error);
+      }
+    },
+    updateStepValue (value) {
       this.isLastStep = value === this.totalStep - 1;
       this.stepValue < 1 ? (this.isPrevDisabled = true) : (this.isPrevDisabled = false);
     },
     updateSelectStepOne(value) {
       this.selectStepOne = value;
-      this.selectStepTwo = [];
-      this.itemsService.forEach((item) => {
-        item.forEach((itemI) => {
-          itemI.defaultValue = false;
-        });
-      });
-      console.log(this.itemsService)
+      this.selectStepTwo = 0;
+    },
+    updateSelectStepTwo(value) {
+      this.selectStepTwo = value;
+    },
+    updateSelectStepThree(value) {
+      this.selectStepThree = value;
     },
     nextStep(step) {
       if(!this.isLastStep){
@@ -50,10 +67,6 @@ export const useStepperStore = defineStore('stepper', {
     toggleButtonNext() {
         this.isNextDisabled = false
     },
-    checkSelectOptionStepTwo(id) {
-      return this.selectStepTwo.includes(id);
-   }
-
 
     // Дополнительные действия по необходимости
   }
