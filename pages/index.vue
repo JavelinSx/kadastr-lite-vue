@@ -2,14 +2,14 @@
     <img class="index-background-img" :src="backgroundImage">
     
     <v-container class="index-container">
-        <v-row>
+        <v-row class="index-container-phone-row">
             <v-col class="index-phone">
                 <h3>8 (902) 552-20-52</h3>
                 <h3>Андрей Николаевич</h3>
             </v-col>
         </v-row>
         <v-row class="index-description" justify="center" align="center">
-            <v-col cols="0" md="2" lg="10"></v-col>
+            <!-- <v-col cols="0" md="2" lg="10"></v-col> -->
             <v-col 
                 cols="12" 
                 class="text-center">
@@ -18,9 +18,8 @@
                     <h4 class="index-subtitle">Уточните границы, оформите недвижимость и гарантируйте точность съемок. Будьте уверены в правильности и законности каждого шага.</h4>
                 </v-container>
             </v-col>
-
         </v-row>
-         
+
         <StepperService></StepperService>
 
     </v-container>
@@ -35,6 +34,9 @@ import backgroundImage from '../images/diploma.webp'
 <style lang="scss">
 
 .index-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: #eeeeee;
     max-width: 100vw;
     height: 470px;
@@ -57,13 +59,16 @@ import backgroundImage from '../images/diploma.webp'
 .index-phone{
     text-align: end;
 }
+.index-container-phone-row{
+    align-self: end;
+}
 .index-description{
     margin-top: 0 !important;
 }
 .index-background-img{
     position: relative; // Теперь правильно установлено для родителя
-    min-height: 470px;
-    max-height: 800px;
+    min-height: 500px;
+    max-height: 600px;
     width: 100%;
     object-fit: cover;
     position: absolute;

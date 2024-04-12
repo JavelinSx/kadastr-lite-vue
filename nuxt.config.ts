@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+
 export default defineNuxtConfig({
   ssr: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ['vuetify/lib/styles/main.sass', '@mdi/font/css/materialdesignicons.min.css'],
   build: {
     transpile: ['vuetify'],
@@ -14,9 +15,11 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+
     //...
   ],
+  plugins: ['plugins/v-mask.js'],
   vite: {
     vue: {
       template: {
@@ -34,6 +37,8 @@ export default defineNuxtConfig({
           }
         },
       },
+
     ],
+    
   },
 })

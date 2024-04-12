@@ -1,6 +1,6 @@
 // stores/stepperStore.js
 import { defineStore } from 'pinia';
-import { itemsForStepperServiceI, itemsServiceI, itemsAreaI, geoFetch } from '@/utils/data'; // Импорт из вашего файла data.js
+import { itemsForStepperServiceI, itemsServiceI, cityListI } from '@/utils/data'; // Импорт из вашего файла data.js
 
 export const useStepperStore = defineStore('stepper', {
   state: () => ({
@@ -8,34 +8,33 @@ export const useStepperStore = defineStore('stepper', {
     isLastStep: false,
     isNextDisabled: true,
     isPrevDisabled: true,
+    formData:{},
     selectStepOne: 0,
     selectStepTwo: 0,
-    selectStepThree: '',
-    selectStepFour: null,
+    selectStepThree: {
+      city: '',
+      street: ''
+    },
+    selectStepFour: {
+      phone: '',
+      fullName: ''
+    },
     totalStep: 4,
     itemsForStepperService: itemsForStepperServiceI,
     itemsService: itemsServiceI,
-    itemsArea: [
-      'Федово',
-      'Плесецк',
-      'Савинский'
-    ]
+    itemsArea: [],
+    resetStepper: false
   }),
   actions: {
-    searchArea: async function(value) {
-      try {
-
-        const result = await geoFetch(value);
-        const itemTest = result.response.GeoObjectCollection.featureMember;
-        console.log(itemTest)
-        const transformArea = itemTest.map((item) => item.GeoObject.name)
-        this.itemsArea = transformArea
-      } catch (error) {
-        console.error("Ошибка при выполнении geoFetch: ", error);
+    listArea(search) {
+      if(search.length>0){
+        this.itemsArea = cityListI
+      } else {
+        this.itemsArea = []
       }
     },
     updateStepValue (value) {
-      this.isLastStep = value === this.totalStep - 1;
+      this.isLastStep = value+1 === this.totalStep - 1;
       this.stepValue < 1 ? (this.isPrevDisabled = true) : (this.isPrevDisabled = false);
     },
     updateSelectStepOne(value) {
@@ -46,7 +45,7 @@ export const useStepperStore = defineStore('stepper', {
       this.selectStepTwo = value;
     },
     updateSelectStepThree(value) {
-      this.selectStepThree = value;
+      this.selectStepThree = this.phoneNumber;
     },
     nextStep(step) {
       if(!this.isLastStep){
@@ -55,19 +54,48 @@ export const useStepperStore = defineStore('stepper', {
           this.submitFormStepper()
       }
       this.updateStepValue(step)
-      console.log(this.stepValue)
     },
     prevStep(){
         this.stepValue = this.stepValue-1
         this.selectStepTwo = []
     },
-    submitFormStepper() {
-        console.log('hello')
+    async submitFormStepper() {
+        try {
+          this.formData = {
+            stepOne: itemsForStepperServiceI[this.selectStepOne - 1].label,
+            stepTwo: itemsServiceI[this.selectStepOne - 1][this.selectStepTwo - 1].label,
+            stepThree: this.selectStepThree,
+            stepFour: this.selectStepFour
+          }
+
+          await fetchStepper(this.formData)
+          this.stepValue = 0
+          this.formData = {}
+          this.selectStepOne = 0,
+          this.selectStepTwo = 0,
+          this.selectStepThree = {
+            city: '',
+            street: ''
+          },
+          this.selectStepFour = {
+            phone: '',
+            fullName: ''
+          },
+          this.itemsArea = []
+
+        } catch (error) {
+        }
     },
     toggleButtonNext() {
-        this.isNextDisabled = false
+        this.isNextDisabled = true
     },
-
+    verifyStep() {
+      console.log(this.selectStepThree.city)
+      this.stepValue===0 && this.selectStepOne !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
+      this.stepValue===1 && this.selectStepTwo !== 0 ? this.isNextDisabled=true : this.isNextDisabled=false
+      this.stepValue===2 && ((this.selectStepThree.city && (this.selectStepThree.city.length !== 0)) && (this.selectStepThree.street && (this.selectStepThree.street.length !== 0))) ? this.isNextDisabled=false : this.isNextDisabled=false
+      this.stepValue===3 && ((this.selectStepFour.fullName.length !== 0) && (this.selectStepFour.phone.length !== 0)) ? this.isNextDisabled=false : this.isNextDisabled=false   
+    }
     // Дополнительные действия по необходимости
   }
 });

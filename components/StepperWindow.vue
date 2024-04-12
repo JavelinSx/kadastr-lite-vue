@@ -7,7 +7,7 @@
                             variant="tonal"
                             v-for="item in itemsForStepperService"
                             :key="item.id"
-                            :class=" selectStepOne===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
+                            :class="selectStepOne===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
                         >
                             <v-img class="stepper-img":src="item.img"/>
                             <v-radio
@@ -27,7 +27,7 @@
                         v-for="item in itemsService[selectStepOne-1]"
                         :key="item.id"
                         variant="tonal"
-                        :class=" selectStepTwo===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
+                        :class="selectStepTwo===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
                     >
                         <v-img :src="item.img"/>
                         <v-radio
@@ -41,24 +41,39 @@
                 </v-col>
             </v-row>
         </v-stepper-window-item>
-
         <v-stepper-window-item value="3">
-
+            <v-banner-text>Мы работаем по всему Плесецкому району (от Самодеда до Кенозеро)</v-banner-text>
             <v-autocomplete
-                v-model="selectStepThree"
+                v-model="selectStepThree.city"
                 :items="itemsArea"
                 label="Населённый пункт"
-                @update:search="stepperStore.searchArea"
+                hide-no-data
+                @update:search="(event) => stepperStore.listArea(event)"
             ></v-autocomplete>
+            <v-text-field
+                v-model="selectStepThree.street"
+                label="Адрес: улица, дом (кв.)"
+            >
+            </v-text-field>
+            <v-banner-text class="text-caption">Удалённость от Плесецка влияет на стоимость</v-banner-text>
 
         </v-stepper-window-item>
         <v-stepper-window-item value="4">
-            
-        </v-stepper-window-item>
-        <v-stepper-window-item value="5">
-            <v-card title="lorem5">
-                <v-card-text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, nam!</v-card-text>
-            </v-card>
+
+            <InputPhone></InputPhone>
+
+            <v-text-field
+                label="Как к вам обращаться?"
+                placeholder="Иванов Иван Иванович"
+                type="text"
+                v-model="selectStepFour.fullName"
+            >
+                
+            </v-text-field>
+
+            <v-banner-text>
+                Нажимая на кнопку "Отправить", вы соглашаетесь с  <NuxtLink to="/privacy">политикой конфидициальности.</NuxtLink> 
+            </v-banner-text>
         </v-stepper-window-item>
     </v-stepper-window>
 </template>
@@ -67,6 +82,7 @@
 import {watch} from 'vue'
 import { useStepperStore } from '@/stores/stepperStore';
 import { storeToRefs } from 'pinia';
+
 const stepperStore = useStepperStore();
 const {
     selectStepOne, 
@@ -77,13 +93,9 @@ const {
     itemsService,
     itemsArea,
     stepValue,
-    stepThreeInput
 } = storeToRefs(stepperStore)
-const test = (v) => console.log(v)
-watch(selectStepThree, () => {
-    console.log(selectStepThree.value)
-})
-watch(selectStepOne, () => {
+
+watch(stepValue, () => {
     stepperStore.toggleButtonNext()
 })
 </script>
@@ -96,14 +108,25 @@ watch(selectStepOne, () => {
         gap: 1rem;
     }
 }
+.v-input__control{
+    width: 100%;
+    align-items: center;
+}
+.v-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px;
+
+}
+.v-img__img--contain{
+    object-fit: cover;
+}
 .v-selection-control__wrapper{
     padding-right: 0.5rem;
 }
 .stepper-img{
-    max-height: 300px;
-}
-.stepper-card{
-    margin-bottom: .5rem;
+    max-height: 220px;
 }
 .index-card-checkbox{
     border: 2px solid transparent;
@@ -114,14 +137,17 @@ watch(selectStepOne, () => {
 }
 .v-selection-control{
     padding: .5rem;
+    min-height: 100px;
 }
 .v-selection-control-group{
     gap: .5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
 }
 .v-banner-text{
     text-align: center;
     padding-inline-end: 0;
-    margin-bottom: 1.5rem;
 }
 .v-label{
     opacity: 1;
@@ -134,6 +160,11 @@ watch(selectStepOne, () => {
     }
     .v-input__control{
         padding-top: 22px;
+    }
+}
+@media (min-width: 450px) and (max-width: 100vw){
+    .v-selection-control-group{
+        flex-direction: row;
     }
 }
 </style>

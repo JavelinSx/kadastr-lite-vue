@@ -19,9 +19,6 @@
         <v-stepper-item value="4" :complete="stepValue>=4" :color="stepValue>=4?'success':''">
         </v-stepper-item>
 
-        <v-stepper-item value="5" class="step-hide">
-        </v-stepper-item>
-
     </v-stepper-header>
 </template>
 
