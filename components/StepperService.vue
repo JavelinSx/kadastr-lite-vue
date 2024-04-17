@@ -12,7 +12,11 @@
                     <StepperWindow></StepperWindow>
                     <StepperActions></StepperActions>
                 </v-stepper>
+
             </v-expand-transition>
+
+
+
             <v-btn 
                 @click="toggleService"
                 :color="isOpen ? 'indigo' : 'success'"
@@ -21,8 +25,6 @@
                 {{ isOpen ? 'Свернуть' : 'Оставить заявку' }}
             </v-btn>
         </v-form>
-
-
 
 </template>
 

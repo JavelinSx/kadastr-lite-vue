@@ -14,7 +14,6 @@
             <v-btn
                 v-if="isLastStep"
                 :disabled="isNextDisabled"
-                @click.stop="stepperStore.submitFormStepper"
                 class='btn-submit'
                 type="submit"
             >

@@ -71,6 +71,13 @@
         </v-stepper-window-item>
         <v-stepper-window-item value="4">
             <v-container>
+                <div v-if="loading" class="v-loading-progress">
+                    <v-progress-circular
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
+                </div>
+
                 <InputPhone></InputPhone>
 
                 <v-text-field
@@ -92,12 +99,12 @@
 </template>
 
 <script setup>
-import {watch} from 'vue'
 import { useStepperStore } from '@/stores/stepperStore';
 import { storeToRefs } from 'pinia';
 
 const stepperStore = useStepperStore();
 const {
+    loading,
     selectStepOne, 
     selectStepTwo,
     selectStepThree,
@@ -108,12 +115,26 @@ const {
     stepValue,
 } = storeToRefs(stepperStore)
 
-// watch(stepValue, () => {
-//     stepperStore.toggleButtonNext()
-// })
 </script>
 
 <style lang="scss">
+.v-loading-progress{
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: .4;
+}
+.v-container{
+    position:relative;
+}
 .stepper-caption{
     padding: 0 !important;
 }
@@ -136,6 +157,9 @@ const {
         gap: 1rem;
     }
 }
+.v-window__container{
+    width: 100%;
+}
 .v-input__control{
     width: 100%;
     align-items: center;
@@ -144,8 +168,10 @@ const {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    max-width: 300px;
-
+    max-width: 280px;
+    .v-responsive{
+        max-height: 180px;
+    }
 }
 .v-img__img--contain{
     object-fit: cover;
@@ -174,6 +200,7 @@ const {
 .v-selection-control-group{
     gap: 1.5rem;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     width: 100%;
 }

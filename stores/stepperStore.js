@@ -23,7 +23,7 @@ export const useStepperStore = defineStore('stepper', {
     itemsForStepperService: itemsForStepperServiceI,
     itemsService: itemsServiceI,
     itemsArea: [],
-    resetStepper: false
+    loading: false
   }),
   actions: {
     listArea(search) {
@@ -49,8 +49,6 @@ export const useStepperStore = defineStore('stepper', {
     nextStep(step) {
       if(!this.isLastStep){
           this.stepValue = this.stepValue+1 
-      } else {
-          this.submitFormStepper()
       }
       this.updateStepValue(step)
       this.verifyStep()
@@ -64,7 +62,9 @@ export const useStepperStore = defineStore('stepper', {
         this.verifyStep()
     },
     async submitFormStepper() {
+
         try {
+          this.loading = true
           this.formData = {
             stepOne: itemsForStepperServiceI[this.selectStepOne - 1].label,
             stepTwo: itemsServiceI[this.selectStepOne - 1][this.selectStepTwo - 1].label,
@@ -73,6 +73,10 @@ export const useStepperStore = defineStore('stepper', {
           }
 
           await fetchStepper(this.formData)
+
+        } catch (error) {
+        } finally {
+          this.loading=false
           this.isLastStep = false
           this.stepValue = 0
           this.formData = {}
@@ -87,8 +91,6 @@ export const useStepperStore = defineStore('stepper', {
             fullName: ''
           },
           this.itemsArea = []
-
-        } catch (error) {
         }
     },
     toggleButtonNext() {
