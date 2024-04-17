@@ -4,18 +4,22 @@
                 <v-banner-text class="text-h6">Какой вид работ необходим?</v-banner-text>
                     <v-radio-group v-model="selectStepOne" class="d-flex align-center flex-column">
                         <v-card 
+                            hover
+                            elevation="10"
                             variant="tonal"
                             v-for="item in itemsForStepperService"
                             :key="item.id"
-                            :class="selectStepOne===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
+                            class="w-100"
                         >
                             <v-img class="stepper-img":src="item.img"/>
                             <v-radio
                                 @click.stop="stepperStore.updateSelectStepOne(selectStepOne)"
                                 :value="item.id"
                                 :label="item.label"
+                                :class="selectStepOne===item.id ? 'index-card-checkbox' : '' "
                             >  
                             </v-radio>
+                            <v-btn class="rounded-t-0 rounded-b" color="#43A047">Подробнее</v-btn>
                         </v-card>
                     </v-radio-group>
         </v-stepper-window-item>
@@ -26,54 +30,63 @@
                     <v-card 
                         v-for="item in itemsService[selectStepOne-1]"
                         :key="item.id"
+                        hover
+                        elevation="10"
                         variant="tonal"
-                        :class="selectStepTwo===item.id ? 'w-100 stepper-card index-card-checkbox index-card-checkbox-verify' : 'w-100 index-card-checkbox' "
+                        class="w-100"
                     >
                         <v-img :src="item.img"/>
                         <v-radio
                             :value="item.id"
                             :label="item.label"
                             @click.stop="stepperStore.updateSelectStepTwo(selectStepTwo)"
+                            :class="selectStepTwo===item.id ? 'index-card-checkbox' : '' "
                         >
                         </v-radio>
+                        <v-btn class="rounded-t-0 rounded-b" color="#43A047">Подробнее</v-btn>
                     </v-card>
                 </v-radio-group>
                 </v-col>
             </v-row>
         </v-stepper-window-item>
         <v-stepper-window-item value="3">
-            <v-banner-text>Мы работаем по всему Плесецкому району (от Самодеда до Кенозеро)</v-banner-text>
-            <v-autocomplete
-                v-model="selectStepThree.city"
-                :items="itemsArea"
-                label="Населённый пункт"
-                hide-no-data
-                @update:search="(event) => stepperStore.listArea(event)"
-            ></v-autocomplete>
-            <v-text-field
-                v-model="selectStepThree.street"
-                label="Адрес: улица, дом (кв.)"
-            >
-            </v-text-field>
-            <v-banner-text class="text-caption">Удалённость от Плесецка влияет на стоимость</v-banner-text>
+            <v-container>
+                <v-banner-text>Мы работаем по всему Плесецкому району (от Самодеда до Кенозеро)</v-banner-text>
+                <v-autocomplete
+                    v-model="selectStepThree.city"
+                    :items="itemsArea"
+                    label="Населённый пункт"
+                    hide-no-data
+                    @update:search="(event) => stepperStore.listArea(event)"
+                ></v-autocomplete>
+                <v-text-field
+                    v-model="selectStepThree.street"
+                    label="Адрес: улица, дом (кв.)"
+                >
+                </v-text-field>
+                <v-banner-text class="stepper-caption text-caption">Удалённость от Плесецка влияет на стоимость</v-banner-text>
+            </v-container>
+
 
         </v-stepper-window-item>
         <v-stepper-window-item value="4">
+            <v-container>
+                <InputPhone></InputPhone>
 
-            <InputPhone></InputPhone>
+                <v-text-field
+                    label="Как к вам обращаться?"
+                    placeholder="Иванов Иван Иванович"
+                    type="text"
+                    v-model="selectStepFour.fullName"
+                >
+                    
+                </v-text-field>
 
-            <v-text-field
-                label="Как к вам обращаться?"
-                placeholder="Иванов Иван Иванович"
-                type="text"
-                v-model="selectStepFour.fullName"
-            >
-                
-            </v-text-field>
+                <v-banner-text>
+                    Нажимая на кнопку "Отправить", вы соглашаетесь с  <NuxtLink to="/privacy">политикой конфидициальности.</NuxtLink> 
+                </v-banner-text>
+            </v-container>
 
-            <v-banner-text>
-                Нажимая на кнопку "Отправить", вы соглашаетесь с  <NuxtLink to="/privacy">политикой конфидициальности.</NuxtLink> 
-            </v-banner-text>
         </v-stepper-window-item>
     </v-stepper-window>
 </template>
@@ -95,12 +108,27 @@ const {
     stepValue,
 } = storeToRefs(stepperStore)
 
-watch(stepValue, () => {
-    stepperStore.toggleButtonNext()
-})
+// watch(stepValue, () => {
+//     stepperStore.toggleButtonNext()
+// })
 </script>
 
 <style lang="scss">
+.stepper-caption{
+    padding: 0 !important;
+}
+.index-card-checkbox{
+    .v-selection-control__input{
+        color: green;
+    }
+}
+.v-stepper-window{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    margin: 0;
+}
 .v-window{
     .v-col{
         display: flex;
@@ -137,10 +165,14 @@ watch(stepValue, () => {
 }
 .v-selection-control{
     padding: .5rem;
-    min-height: 100px;
+    min-height: 60px;
+    .v-label{
+        font-size: 12px;
+        width: 100%;
+    }
 }
 .v-selection-control-group{
-    gap: .5rem;
+    gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
@@ -148,6 +180,7 @@ watch(stepValue, () => {
 .v-banner-text{
     text-align: center;
     padding-inline-end: 0;
+    padding-top: 1rem;
 }
 .v-label{
     opacity: 1;

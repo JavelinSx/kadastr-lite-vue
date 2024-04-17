@@ -35,16 +35,15 @@ export const useStepperStore = defineStore('stepper', {
     },
     updateStepValue (value) {
       this.isLastStep = value+1 === this.totalStep - 1;
-      this.stepValue < 1 ? (this.isPrevDisabled = true) : (this.isPrevDisabled = false);
+      this.stepValue <= 0 ? (this.isPrevDisabled = true) : (this.isPrevDisabled = false);
     },
     updateSelectStepOne(value) {
       this.selectStepOne = value;
-      this.selectStepTwo = 0;
     },
     updateSelectStepTwo(value) {
       this.selectStepTwo = value;
     },
-    updateSelectStepThree(value) {
+    updateSelectStepThree() {
       this.selectStepThree = this.phoneNumber;
     },
     nextStep(step) {
@@ -54,10 +53,15 @@ export const useStepperStore = defineStore('stepper', {
           this.submitFormStepper()
       }
       this.updateStepValue(step)
+      this.verifyStep()
     },
-    prevStep(){
+    prevStep(step){
         this.stepValue = this.stepValue-1
-        this.selectStepTwo = []
+        if(this.isLastStep){
+          this.isLastStep = false
+        }
+        this.updateStepValue(step)
+        this.verifyStep()
     },
     async submitFormStepper() {
         try {
@@ -69,6 +73,7 @@ export const useStepperStore = defineStore('stepper', {
           }
 
           await fetchStepper(this.formData)
+          this.isLastStep = false
           this.stepValue = 0
           this.formData = {}
           this.selectStepOne = 0,
@@ -90,11 +95,18 @@ export const useStepperStore = defineStore('stepper', {
         this.isNextDisabled = true
     },
     verifyStep() {
-      console.log(this.selectStepThree.city)
-      this.stepValue===0 && this.selectStepOne !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
-      this.stepValue===1 && this.selectStepTwo !== 0 ? this.isNextDisabled=true : this.isNextDisabled=false
-      this.stepValue===2 && ((this.selectStepThree.city && (this.selectStepThree.city.length !== 0)) && (this.selectStepThree.street && (this.selectStepThree.street.length !== 0))) ? this.isNextDisabled=false : this.isNextDisabled=false
-      this.stepValue===3 && ((this.selectStepFour.fullName.length !== 0) && (this.selectStepFour.phone.length !== 0)) ? this.isNextDisabled=false : this.isNextDisabled=false   
+      if(this.stepValue===0){
+        this.selectStepOne !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
+      }
+      if(this.stepValue===1){
+        this.selectStepTwo !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
+      }
+      if(this.stepValue===2){
+        this.selectStepThree.city || this.selectStepThree.street ? this.isNextDisabled=false : this.isNextDisabled=true
+      }
+      if(this.stepValue===3){
+        this.selectStepFour.fullName && this.selectStepFour.phone ? this.isNextDisabled=false : this.isNextDisabled=true
+      }
     }
     // Дополнительные действия по необходимости
   }
