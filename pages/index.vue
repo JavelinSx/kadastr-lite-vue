@@ -9,7 +9,6 @@
             </v-col>
         </v-row>
         <v-row class="index-description" justify="center" align="center">
-            <!-- <v-col cols="0" md="2" lg="10"></v-col> -->
             <v-col 
                 cols="12" 
                 class="text-center">
@@ -24,6 +23,22 @@
 
     </v-container>
 
+    <v-row class="content">
+
+        <v-col class="content-col pa-0">
+            <v-container class="pa-0">
+                <AboutUsContent></AboutUsContent>
+            </v-container>
+        </v-col>
+
+        <v-col class="content-col content-col-down pa-0">
+            <v-container class="pa-0">
+                <TimeLineContent></TimeLineContent>
+            </v-container>
+        </v-col>
+
+    </v-row>
+
 </template>
 
 <script setup>
@@ -32,7 +47,26 @@ import backgroundImage from '../images/diploma.webp'
 </script>
 
 <style lang="scss">
-
+.content{
+    margin: 0;
+    justify-content: center;
+}
+.content-col{
+    max-width: 550px;
+}
+.content-col-down{
+    @media (min-width: 450px) and (max-width: 100vw) {
+        margin-top: 20rem;
+    }
+}
+.timeline-content{
+    @media (min-width: none) and (max-width: none) {
+        
+    }
+}
+.index-container-phone-row{
+    flex: none;
+}
 .index-container{
     display: flex;
     flex-direction: column;
@@ -55,6 +89,10 @@ import backgroundImage from '../images/diploma.webp'
     hsla(0, 0%, 7.32%, 0.765625) 97.43%,
     hsla(0, 0%, 0%, 0.8) 100%
   );
+  
+  @media  screen and (min-width:450px) {
+        height: 600px;
+    }
 }
 .index-phone{
     text-align: end;

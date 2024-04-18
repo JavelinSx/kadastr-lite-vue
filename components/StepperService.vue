@@ -62,6 +62,7 @@ const toggleService = () => {
     flex-direction: column;
     max-width: 800px;
     width: 100%;
+    z-index: 100;
 }
 
 @media (min-width: 450px) and (max-width: 100vw) {
