@@ -40,9 +40,13 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3); /* черный цвет с 50% непрозрачности */
 }
+.v-row{
+  margin: 0;
+}
 .main{
   color: #191919;
   min-width: 320px !important;
+  background: url('../images/main.jpg')
 }
 .v-card-title{
   white-space: wrap;

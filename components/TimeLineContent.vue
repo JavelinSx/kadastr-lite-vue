@@ -1,54 +1,58 @@
 <template>
-    <v-divider  class="border-opacity-25 pa-6" ></v-divider>
+    <v-divider  class="border-opacity-75 mt-12" color="white" thickness="2"></v-divider>
     <v-row>
-      <v-col :class="`d-flex flex-column ${widthControl>500 ? 'justify-center' : 'justify-left'} `">
-        <v-container>
-          <v-container class="text-h4 text-center pb-7">Как мы работаем?</v-container>
-        <v-timeline side="end">
-          <v-timeline-item
-            v-for="(item, i) in dataContent"
-            :key="i"
-            :dot-color="item.color"
-            size="large"
-            fill-dot
-            :icon="item.icon"
-            :width="widthControl<600 ? '250' : '500'"
-          >
-            <template v-if="widthControl>600" v-slot:opposite>
-              <div
-                :class="`pt-1 headline font-weight-bold`"
-                v-text="item.step"
-              ></div>
-            </template>
+      <v-col :class="`pl-0 d-flex flex-column ${widthControl>500 ? 'justify-center' : 'justify-left'} `">
+        <v-container class="">
+          <v-container class="text-h4 text-center pb-7 pl-0">Как мы работаем?</v-container>
+            <v-timeline side="end">
+              <v-timeline-item
+                v-for="(item, i) in dataContent"
+                :key="i"
+                :dot-color="item.color"
+                size="large"
+                fill-dot
+                :icon="item.icon"
+                :width="widthControl<600 ? '250' : '500'"
+                class="time-line-content-how"
+              >
+                <template v-if="widthControl>600" v-slot:opposite>
+                  <div
+                    :class="`pt-1 headline font-weight-bold`"
+                    v-text="item.step"
+                  ></div>
+                </template>
 
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-title :class="`${ widthControl<500 ? 'text-h6' : 'text-h5'}`"> {{ item.titleContent }}</v-expansion-panel-title>
-                  <v-expansion-panel-text>{{ item.content }}</v-expansion-panel-text>
-                </v-expansion-panel>
-              </v-expansion-panels>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-title :class="`${ widthControl<500 ? 'text-h6' : 'text-h5'}`"> {{ item.titleContent }}</v-expansion-panel-title>
+                      <v-expansion-panel-text>{{ item.content }}</v-expansion-panel-text>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
 
-          </v-timeline-item>
-        </v-timeline>
+              </v-timeline-item>
+            </v-timeline>
         </v-container>
         
 
       </v-col>
-      <v-col>
-        <v-container>
+      <v-col >
+        <v-container >
           <v-container class="text-h4 text-center pb-13">Часто задаваемые вопросы?</v-container>
-          <v-sheet
-            v-for="(item, i) in dataQuestion"
-            :key="i"
-            class="pb-5"
-          >
-            <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-title :class="`${ widthControl<500 ? 'text-h6' : 'text-h5'}`"> {{ item.title }}</v-expansion-panel-title>
-                  <v-expansion-panel-text>{{ item.content }}</v-expansion-panel-text>
-                </v-expansion-panel>
-            </v-expansion-panels>
-          </v-sheet>
+          <v-container>
+            <v-sheet
+              v-for="(item, i) in dataQuestion"
+              :key="i"
+              class="pb-5 time-line-content-sheet-question"
+            >
+              <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-title :class="`${ widthControl<500 ? 'text-h6' : 'text-h5'}`"> {{ item.title }}</v-expansion-panel-title>
+                    <v-expansion-panel-text>{{ item.content }}</v-expansion-panel-text>
+                  </v-expansion-panel>
+              </v-expansion-panels>
+            </v-sheet>
+          </v-container>
+          
         </v-container>
 
       </v-col>
@@ -129,19 +133,28 @@
 </script>
 
 <style lang="scss">
+.time-line-content-sheet-question{
+  background: inherit;
+  gap: 1rem;
+}
 .v-timeline-divider{
 
-  padding-right: 2rem;
+  padding-right: 1rem;
   @media (min-width: 500) and (max-width: 100vw) {
     padding-top: 4rem;
+  }
+}
+.time-line-content-how{
+  .v-timeline-item__body{
+    max-width: 240px;
   }
 }
 .v-timeline-item__body{
     padding-inline-start: 0px !important;
     padding-block-start: 0px;
-    margin-bottom: 2rem;
+    width: 100%;
     @media (min-width: 500) and (max-width: 100vw) {
-
+      max-width: 270px;
     }
 
 }
@@ -149,7 +162,7 @@
     height: auto;
 }
 .v-timeline-item__body{
-  width: 100%;
+
 }
 .v-expansion-panels {
 

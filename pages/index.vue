@@ -43,12 +43,10 @@
                 </v-container>
             </v-col>
         </v-row>
+        
         <v-container v-if="widthControl>600">
-
             <AboutUsContent></AboutUsContent>
-
             <TimeLineContent></TimeLineContent>
-
         </v-container>
 
 </template>

@@ -2,14 +2,14 @@
     <v-divider  class="border-opacity-25 pa-6"></v-divider>
     <v-row>
         <v-col class="d-flex justify-left">
-            <v-container>
-                <v-timeline class="justify-left" :side="widthControl<600 ? 'end' : 'start'" :direction="widthControl<769 ? 'vertical' : 'horizontal'">
+            <v-container class="pa-0">
+                <v-timeline class="pr-14 justify-left" :side="widthControl<600 ? 'end' : 'start'" :direction="widthControl<769 ? 'vertical' : 'horizontal'">
                 <v-timeline-item
                     v-for="(data,index) in dataContent"
                     :key="data.id"
                     :dot-color="data.color"
                     size="large"
-                    :width="widthControl<500 ? 250 : 300"
+                    :width="widthControl<500 ? 240 : 300"
                     height="350"
                     :icon="`mdi-numeric-${index+1}`"
                 >
