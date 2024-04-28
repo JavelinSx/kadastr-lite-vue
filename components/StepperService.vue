@@ -5,7 +5,7 @@
                 <v-stepper
                     :model-value="stepValue"     
                     hide-actions
-                    v-show="isOpen"
+                    v-show="isOpenForm"
                     class="rounded-b-0" 
                 >
                     <StepperHeaders></StepperHeaders>
@@ -18,11 +18,11 @@
 
 
             <v-btn 
-                @click="toggleService"
-                :color="isOpen ? 'indigo' : 'success'"
+                @click="stepperStore.toggleOpenForm"
+                :color="isOpenForm ? 'indigo' : 'success'"
                 class="rounded-t-0"
             >
-                {{ isOpen ? 'Свернуть' : 'Оставить заявку' }}
+                {{ isOpenForm ? 'Свернуть' : 'Оставить заявку' }}
             </v-btn>
         </v-form>
 
@@ -42,15 +42,11 @@ const {
     selectStepTwo,
     selectStepThree,
     selectStepFour,
-    stepValue
+    stepValue, 
+    isOpenForm
 } = storeToRefs(stepperStore)
 watch([selectStepOne, selectStepTwo, selectStepThree, selectStepFour, stepValue], () => stepperStore.verifyStep(), {deep: true})
 
-const isOpen = ref(false)
-
-const toggleService = () => {
-    isOpen.value = !isOpen.value
-}
 
 
 
@@ -58,11 +54,23 @@ const toggleService = () => {
 
 <style lang="scss" scoped>
 .v-form{
+    position: relative;
     display: flex;
     flex-direction: column;
     max-width: 800px;
     width: 100%;
     z-index: 100;
+    @media  screen and (min-width:768px) {
+        max-width: 650px;
+    }
+}
+.v-stepper.v-sheet{
+    position: absolute;
+    top: 36px;
+    width: 100%;
+    @media  screen and (min-width:768px) {
+        top: 58px; 
+    }
 }
 
 @media (min-width: 450px) and (max-width: 100vw) {

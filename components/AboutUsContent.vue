@@ -1,44 +1,54 @@
 <template>
-    <h1 class="text-center pa-8 text-h4">О нас</h1>
-    <v-timeline side="end">
-      <v-timeline-item
-        v-for="data in dataContent"
-        :key="data.id"
-        :dot-color="data.color"
-        size="small"
-        width="230"
-      >
-
-        <v-card
-            class="mx-auto"
-            max-width="230"
-        >
-            <v-img
-                height="200px"
-                :src="data.img"
-                cover
-            ></v-img>
-            <v-card-title :class="`text-${data.color}`">
-                {{ data.title }}
-            </v-card-title>
-            <v-card-text>
-                {{ data.subtitile }}
-            </v-card-text>
+    <v-divider  class="border-opacity-25 pa-6"></v-divider>
+    <v-row>
+        <v-col class="d-flex justify-left">
+            <v-container>
+                <v-timeline class="justify-left" :side="widthControl<600 ? 'end' : 'start'" :direction="widthControl<769 ? 'vertical' : 'horizontal'">
+                <v-timeline-item
+                    v-for="(data,index) in dataContent"
+                    :key="data.id"
+                    :dot-color="data.color"
+                    size="large"
+                    :width="widthControl<500 ? 250 : 300"
+                    height="350"
+                    :icon="`mdi-numeric-${index+1}`"
+                >
+                    <v-card
+                        class="mx-auto"
+                        variant="tonal"
+                        elevation="10"
+                    >
+                        <v-img
+                            :src="data.img"
+                            cover
+                            height="180"
+                        ></v-img>
+                        <v-card-title>
+                            {{ data.title }}
+                        </v-card-title>
+                        <v-card-text class="about-card-text">
+                            {{ data.subtitile }}
+                        </v-card-text>
+                
+                    </v-card>
+                </v-timeline-item>
+                </v-timeline>
+            </v-container>
+        </v-col>
+    </v-row>
     
-        </v-card>
-
-
-
-      </v-timeline-item>
-    </v-timeline>
   </template>
 
 <script setup>
-  import one from '../images/about/1.webp'
-  import two from '../images/about/2.webp'
-  import three from '../images/about/3.webp'
-  import four from '../images/about/4.webp'
+    import one from '../images/about/1.jpg'
+    import two from '../images/about/2.jpg'
+    import three from '../images/about/3.jpg'
+    import four from '../images/about/4.jpg'
+    import { ref } from 'vue';
+    import { useDisplay } from 'vuetify'
+    const { width } = useDisplay()
 
+    const widthControl = ref(width)
     const dataContent = [
         {   
             id:1,
@@ -72,10 +82,23 @@
   
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
 .v-card-title{
     white-space: pre-wrap;
-    line-height: 1.5rem;
+    line-height: 1.5rem !important;
     font-size: 1.2rem;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+.v-timeline-divider__after{
+    background: #eeeeee;
+}
+.v-timeline-divider__before{
+    background: #eeeeee;
+}
+.about-card-text{
+    height: 80px;
 }
 </style>

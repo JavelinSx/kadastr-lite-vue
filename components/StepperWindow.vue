@@ -193,7 +193,7 @@ const {
     padding: .5rem;
     min-height: 60px;
     .v-label{
-        font-size: 12px;
+        font-size: 14px;
         width: 100%;
     }
 }

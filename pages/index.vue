@@ -1,98 +1,89 @@
 <template>
-    <img class="index-background-img" :src="backgroundImage">
-    
-    <v-container class="index-container">
-        <v-row class="index-container-phone-row">
-            <v-col class="index-phone">
-                <h3>8 (902) 552-20-52</h3>
-                <h3>Андрей Николаевич</h3>
-            </v-col>
-        </v-row>
-        <v-row class="index-description" justify="center" align="center">
-            <v-col 
-                cols="12" 
-                class="text-center">
-                <v-container class="index-title-container">
-                    <h1 class="index-title">Кадастровые и геодезические работы под ключ</h1>
-                    <h4 class="index-subtitle">Уточните границы, оформите недвижимость и гарантируйте точность съемок. Будьте уверены в правильности и законности каждого шага.</h4>
+
+        <v-container class="index-container">
+            <v-row class="index-container-phone-row">
+                <v-col class="index-phone">
+                    <h3>8 (902) 552-20-52</h3>
+                    <h3>Андрей Николаевич</h3>
+                </v-col>
+            </v-row>
+            <v-row class="index-description" justify="center" align="center">
+                <v-col 
+                    cols="12" 
+                    class="text-center">
+                    <v-container class="index-title-container pa-0">
+                        <h1 class="index-title text-h3">Кадастровые и геодезические работы под ключ</h1>
+                        <v-container class="w-100 d-flex justify-end">
+                            <h4 class="index-subtitle text-h6">Уточните границы, оформите недвижимость и гарантируйте точность съемок. Будьте уверены в правильности и законности каждого шага.</h4>
+                        </v-container>
+                    </v-container>
+                </v-col>
+            </v-row>
+
+            <StepperService></StepperService>
+            <v-snackbar v-model="snackBarView">
+                Заявка успешно отправлена!
+                <template v-slot:actions>
+                    <v-btn
+                    color="green"
+                    variant="text"
+                    @click="stepperStore.snackBarClose()"
+                    >
+                    Закрыть
+                    </v-btn>
+                </template>
+            </v-snackbar>
+        </v-container>
+
+        <v-row class="content" v-if="widthControl<600">
+            <v-col class="content-col pa-0">
+                <v-container class="pa-0">
+                    <AboutUsContent></AboutUsContent>
+                    <TimeLineContent></TimeLineContent>
                 </v-container>
             </v-col>
         </v-row>
+        <v-container v-if="widthControl>600">
 
-        <StepperService></StepperService>
+            <AboutUsContent></AboutUsContent>
 
-    </v-container>
+            <TimeLineContent></TimeLineContent>
 
-    <v-row class="content">
-
-        <v-col class="content-col pa-0">
-            <v-container class="pa-0">
-                <AboutUsContent></AboutUsContent>
-            </v-container>
-        </v-col>
-
-        <v-col class="content-col content-col-down pa-0">
-            <v-container class="pa-0">
-                <TimeLineContent></TimeLineContent>
-            </v-container>
-        </v-col>
-
-    </v-row>
+        </v-container>
 
 </template>
 
 <script setup>
-import backgroundImage from '../images/diploma.webp'
+
+import { ref } from 'vue';
+import { useDisplay } from 'vuetify'
+const { width } = useDisplay()
+const stepperStore = useStepperStore();
+const {snackBarView} = storeToRefs(stepperStore)
+const widthControl = ref(width)
 
 </script>
 
 <style lang="scss">
+
 .content{
     margin: 0;
     justify-content: center;
 }
-.content-col{
-    max-width: 550px;
-}
-.content-col-down{
-    @media (min-width: 450px) and (max-width: 100vw) {
-        margin-top: 20rem;
-    }
-}
-.timeline-content{
-    @media (min-width: none) and (max-width: none) {
-        
-    }
-}
+
 .index-container-phone-row{
     flex: none;
 }
+
 .index-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #eeeeee;
+    color: #191919;
     max-width: 100vw;
-    height: 470px;
-    max-height: 600px;
+    width: 100%;
     position: relative;
     margin: 0;
-    background-image: linear-gradient(
-    0deg,
-    hsla(0, 0%, 35.29%, 0) 0%,
-    hsla(0, 0%, 34.53%, 0.034375) 16.36%,
-    hsla(0, 0%, 32.42%, 0.125) 33.34%,
-    hsla(0, 0%, 29.18%, 0.253125) 50.1%,
-    hsla(0, 0%, 24.96%, 0.4) 65.75%,
-    hsla(0, 0%, 19.85%, 0.546875) 79.43%,
-    hsla(0, 0%, 13.95%, 0.675) 90.28%,
-    hsla(0, 0%, 7.32%, 0.765625) 97.43%,
-    hsla(0, 0%, 0%, 0.8) 100%
-  );
-  
-  @media  screen and (min-width:450px) {
-        height: 600px;
-    }
 }
 .index-phone{
     text-align: end;
@@ -105,8 +96,8 @@ import backgroundImage from '../images/diploma.webp'
 }
 .index-background-img{
     position: relative; // Теперь правильно установлено для родителя
-    min-height: 500px;
-    max-height: 600px;
+    min-width: 500px;
+    max-width: 600px;
     width: 100%;
     object-fit: cover;
     position: absolute;
@@ -117,19 +108,27 @@ import backgroundImage from '../images/diploma.webp'
 
 .index-title-container{
     max-width: max-content;
-
 }
+
 .index-title{
-    line-height: 2.2rem;
+    max-width: 300px;
+    text-align: left;
+    font-size: 2.5rem !important;
+    @media  screen and (min-width:450px) {
+        max-width: 800px;
+    }
+    @media  screen and (min-width:768px) {
+        max-width: 600px;
+    }
 }
 .index-subtitle{
     padding-top: 1rem;
     width: 280px;
     margin: auto;
-
+    text-align: end;
     @media  screen and (min-width:450px) {
-        width: 370px;
-        text-align: start;
+        width: 460px;
+        text-align: end;
         margin: 0;
     }
 }
