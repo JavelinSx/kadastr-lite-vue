@@ -53,6 +53,7 @@
             <v-container>
                 <v-banner-text>Мы работаем по всему Плесецкому району (от Самодеда до Кенозеро)</v-banner-text>
                 <v-autocomplete
+                    class="stepper-window-autocomplete"
                     v-model="selectStepThree.city"
                     :items="itemsArea"
                     label="Населённый пункт"
@@ -118,6 +119,9 @@ const {
 </script>
 
 <style lang="scss">
+.v-autocomplete__content{
+    z-index: 9999999;
+}
 .v-loading-progress{
     position:absolute;
     top: 0;

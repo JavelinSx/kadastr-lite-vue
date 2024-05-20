@@ -1,8 +1,8 @@
 <template>
     <v-divider  class="border-opacity-75 mt-12" color="white" thickness="2"></v-divider>
-    <v-row>
-      <v-col :class="`pl-0 d-flex flex-column ${widthControl>500 ? 'justify-center' : 'justify-left'} `">
-        <v-container class="">
+    <v-row class="align-start">
+      <v-col :class="`d-flex flex-column ${widthControl>500 ? 'justify-center' : 'justify-left'} `">
+        <v-container>
           <v-container class="text-h4 text-center pb-7 pl-0">Как мы работаем?</v-container>
             <v-timeline side="end">
               <v-timeline-item
@@ -12,7 +12,7 @@
                 size="large"
                 fill-dot
                 :icon="item.icon"
-                :width="widthControl<600 ? '250' : '500'"
+                
                 class="time-line-content-how"
               >
                 <template v-if="widthControl>600" v-slot:opposite>
@@ -22,7 +22,7 @@
                   ></div>
                 </template>
 
-                  <v-expansion-panels>
+                  <v-expansion-panels >
                     <v-expansion-panel>
                       <v-expansion-panel-title :class="`${ widthControl<500 ? 'text-h6' : 'text-h5'}`"> {{ item.titleContent }}</v-expansion-panel-title>
                       <v-expansion-panel-text>{{ item.content }}</v-expansion-panel-text>
@@ -37,7 +37,7 @@
       </v-col>
       <v-col >
         <v-container >
-          <v-container class="text-h4 text-center pb-13">Часто задаваемые вопросы?</v-container>
+          <v-container class="text-h4 text-center pb-8 pl-0">Часто задаваемые вопросы?</v-container>
           <v-container>
             <v-sheet
               v-for="(item, i) in dataQuestion"
@@ -112,6 +112,7 @@
         },
 
     ]
+
     const dataQuestion = [
         {
             title: 'Зачем нужно межевание?',
@@ -130,9 +131,13 @@
             content: '',
         },
     ]
+
 </script>
 
 <style lang="scss">
+.v-timeline{
+  justify-content: center;
+}
 .time-line-content-sheet-question{
   background: inherit;
   gap: 1rem;
@@ -146,25 +151,42 @@
 }
 .time-line-content-how{
   .v-timeline-item__body{
-    max-width: 240px;
+    max-width: 270px;
+    @media (min-width: 768px) and (max-width: 100vw) {
+      max-width: 500px;
+    }
   }
 }
 .v-timeline-item__body{
     padding-inline-start: 0px !important;
     padding-block-start: 0px;
     width: 100%;
-    @media (min-width: 500) and (max-width: 100vw) {
-      max-width: 270px;
+    @media (min-width: 500px) and (max-width: 1023px) {
+      min-width: 320px;
+    }
+    @media (min-width: 1024px) and (max-width: 100vw) {
+      min-width: 220px;
     }
 
 }
 .v-timeline--vertical.v-timeline{
     height: auto;
+    grid-template-columns: min-content min-content max-content;
 }
 .v-timeline-item__body{
 
 }
-.v-expansion-panels {
-
+.v-timeline-item__opposite{
+  display: none;
+  @media (min-width: 500px) and (max-width: 100vw) {
+    display: block;
+    min-width: 70px;
+  }
+}
+.v-expansion-panel {
+  width: auto;
+    @media (min-width: 500px) and (max-width: 100vw) {
+      width: 500px;
+    }
 }
 </style>

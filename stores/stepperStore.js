@@ -8,7 +8,7 @@ export const useStepperStore = defineStore('stepper', {
     isLastStep: false,
     isNextDisabled: true,
     isPrevDisabled: true,
-    formData:{},
+    formData: {},
     selectStepOne: 0,
     selectStepTwo: 0,
     selectStepThree: {
@@ -32,70 +32,70 @@ export const useStepperStore = defineStore('stepper', {
     //Actions <------------
 
     nextStep(step) {
-      if(!this.isLastStep){
-          this.stepValue = this.stepValue+1 
+      if (!this.isLastStep) {
+        this.stepValue = this.stepValue + 1
       }
       this.updateStepValue(step)
       this.verifyStep()
       this.scrollToUpForm()
     },
-    prevStep(step){
-        this.stepValue = this.stepValue-1
-        if(this.isLastStep){
-          this.isLastStep = false
-        }
-        this.updateStepValue(step)
-        this.verifyStep()
-        this.scrollToUpForm()
+    prevStep(step) {
+      this.stepValue = this.stepValue - 1
+      if (this.isLastStep) {
+        this.isLastStep = false
+      }
+      this.updateStepValue(step)
+      this.verifyStep()
+      this.scrollToUpForm()
     },
     async submitFormStepper() {
 
-        try {
-          this.loading = true
-          this.formData = {
-            stepOne: itemsForStepperServiceI[this.selectStepOne - 1].label,
-            stepTwo: itemsServiceI[this.selectStepOne - 1][this.selectStepTwo - 1].label,
-            stepThree: this.selectStepThree,
-            stepFour: this.selectStepFour
-          }
-
-          await fetchStepper(this.formData)
-
-        } catch (error) {
-        } finally {
-          this.snackBarView=true
-          this.loading=false
-          this.isLastStep = false
-          this.stepValue = 0
-          this.formData = {}
-          this.selectStepOne = 0
-          this.selectStepTwo = 0
-          this.selectStepThree = {
-            city: '',
-            street: ''
-          }
-          this.selectStepFour = {
-            phone: '',
-            fullName: ''
-          }
-          this.itemsArea = []
-          this.isOpenForm = false
+      try {
+        this.loading = true
+        this.formData = {
+          stepOne: itemsForStepperServiceI[this.selectStepOne - 1].label,
+          stepTwo: itemsServiceI[this.selectStepOne - 1][this.selectStepTwo - 1].label,
+          stepThree: this.selectStepThree,
+          stepFour: this.selectStepFour
         }
+
+        await fetchStepper(this.formData)
+
+      } catch (error) {
+      } finally {
+        this.snackBarView = true
+        this.loading = false
+        this.isLastStep = false
+        this.stepValue = 0
+        this.formData = {}
+        this.selectStepOne = 0
+        this.selectStepTwo = 0
+        this.selectStepThree = {
+          city: '',
+          street: ''
+        }
+        this.selectStepFour = {
+          phone: '',
+          fullName: ''
+        }
+        this.itemsArea = []
+        this.isOpenForm = false
+      }
     },
     toggleButtonNext() {
-        this.isNextDisabled = true
+      this.isNextDisabled = true
     },
     toggleOpenForm() {
       this.isOpenForm = !this.isOpenForm
     },
-    snackBarClose(){
+    snackBarClose() {
       this.snackBarView = false
     },
 
     //Functions <------------
 
     listArea(search) {
-      if(search.length>0){
+      if (search.length > 0) {
         this.itemsArea = cityListI
       } else {
         this.itemsArea = []
@@ -103,31 +103,37 @@ export const useStepperStore = defineStore('stepper', {
     },
     scrollToUpForm() {
       const formEl = document.querySelector('.v-form')
-      if(formEl){
-          formEl.scrollIntoView({behavior: 'smooth', block: 'start'})
+      if (formEl) {
+        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
     },
     verifyStep() {
-      if(this.stepValue===0){
-        this.selectStepOne !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
+      if (this.stepValue === 0) {
+        this.selectStepOne !== 0 ? this.isNextDisabled = false : this.isNextDisabled = true
       }
-      if(this.stepValue===1){
-        this.selectStepTwo !== 0 ? this.isNextDisabled=false : this.isNextDisabled=true
+      if (this.stepValue === 1) {
+        this.selectStepTwo !== 0 ? this.isNextDisabled = false : this.isNextDisabled = true
       }
-      if(this.stepValue===2){
-        this.selectStepThree.city.length>3 && this.selectStepThree.street.length>3 ? this.isNextDisabled=false : this.isNextDisabled=true
+      if (this.stepValue === 2) {
+        this.selectStepThree.city.length > 3 && this.selectStepThree.street.length > 3 ? this.isNextDisabled = false : this.isNextDisabled = true
       }
-      if(this.stepValue===3){
-        this.selectStepFour.fullName.length>0 && this.selectStepFour.phone.length===18 ? this.isNextDisabled=false : this.isNextDisabled=true
+      if (this.stepValue === 3) {
+        this.selectStepFour.fullName.length > 0 && this.selectStepFour.phone.length === 18 ? this.isNextDisabled = false : this.isNextDisabled = true
       }
     },
 
     //UpdatesState <------------
-
-    updateStepValue (value) {
-      this.isLastStep = value+1 === this.totalStep - 1;
+    updateStepValue(value) {
+      this.isLastStep = value + 1 === this.totalStep - 1;
       this.stepValue <= 0 ? (this.isPrevDisabled = true) : (this.isPrevDisabled = false);
     },
+    updateStateInProps(selectStepOne, selectStepTwo, stepValue) {
+      this.selectStepOne = selectStepOne
+      this.selectStepTwo = selectStepTwo
+      this.stepValue = stepValue
+      this.updateStepValue(stepValue - 1)
+    },
+
     //правила для следующего или предыдущего шага
 
     updateSelectStepOne(value) {

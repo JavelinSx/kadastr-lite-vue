@@ -2,21 +2,22 @@
     <v-divider  class="border-opacity-25 pa-6"></v-divider>
     <v-row>
         <v-col class="d-flex justify-left">
-            <v-container class="pa-0">
-                <v-timeline class="pr-14 justify-left" :side="widthControl<600 ? 'end' : 'start'" :direction="widthControl<769 ? 'vertical' : 'horizontal'">
+            <v-container class="about-us-container pa-0">
+                <v-timeline class="justify-left about-us-content" :side="widthControl<600 ? 'end' : 'start'" :direction="widthControl<992 ? 'vertical' : 'horizontal'">
                 <v-timeline-item
                     v-for="(data,index) in dataContent"
                     :key="data.id"
                     :dot-color="data.color"
                     size="large"
-                    :width="widthControl<500 ? 240 : 300"
-                    height="350"
+
+
                     :icon="`mdi-numeric-${index+1}`"
                 >
                     <v-card
                         class="mx-auto"
                         variant="tonal"
                         elevation="10"
+                        height="360"
                     >
                         <v-img
                             :src="data.img"
@@ -26,7 +27,7 @@
                         <v-card-title>
                             {{ data.title }}
                         </v-card-title>
-                        <v-card-text class="about-card-text">
+                        <v-card-text class="about-card-text pb-2 pt-2">
                             {{ data.subtitile }}
                         </v-card-text>
                 
@@ -83,7 +84,19 @@
 </script>
 
 <style lang="scss">
+.about-us-container{
+    @media (min-width: 992px) and (max-width: 100vw){
 
+    }
+}
+.about-us-content{
+    justify-content: center;
+    .v-timeline-item{
+        .v-timeline-item__opposite{
+            display: none;
+        }
+    }
+}
 .v-card-title{
     white-space: pre-wrap;
     line-height: 1.5rem !important;

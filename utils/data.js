@@ -25,24 +25,34 @@ import points from '../images/services/geo/removing points.jpg'
 import protectZone from '../images/services/ZOUIT/protectZone.jpg'
 import saveZone from '../images/services/ZOUIT/saveZone.jpg'
 
+import humanKad1 from '../images/content/kad-content-1.png'
+import humanKad2 from '../images/content/kad-content-2.png'
+import humanKad3 from '../images/content/kad-content-3.png'
+import humanKad4 from '../images/content/kad-content-4.png'
+import humanKad5 from '../images/content/kad-content-5.png'
+import humanKad6 from '../images/content/kad-content-6.png'
+import humanKad7 from '../images/content/kad-content-7.png'
+import humanKad8 from '../images/content/kad-content-8.png'
+import humanKad9 from '../images/content/kad-content-9.png'
+
 export const itemsForStepperServiceI = [
     {
-        id:1,
+        id: 1,
         img: landPlot,
         label: 'Кадастровые работы в отношении земельного участка'
     },
     {
-        id:2,
+        id: 2,
         img: techPlan,
         label: 'Кадастровые работы в отношении дома, здания'
     },
     {
-        id:3,
+        id: 3,
         img: zouit,
         label: 'ЗОУИТ'
     },
     {
-        id:4,
+        id: 4,
         img: geo,
         label: 'Геодезические работы'
     },
@@ -50,27 +60,27 @@ export const itemsForStepperServiceI = [
 
 const itemsForLandPlot = [
     {
-        id:1,
+        id: 1,
         img: correction,
         label: 'Уточнение границ земельного участка'
     },
     {
-        id:2,
+        id: 2,
         img: redistribution,
         label: 'Перераспределение земельного участка'
     },
     {
-        id:3,
+        id: 3,
         img: chapter,
         label: 'Раздел, объединение земельных участков'
     },
     {
-        id:4,
+        id: 4,
         img: forming,
         label: 'Формирование земельного участка'
     },
     {
-        id:5,
+        id: 5,
         img: selected,
         label: 'Выдел земельной доли'
     },
@@ -78,32 +88,32 @@ const itemsForLandPlot = [
 
 const itemsForTechPlan = [
     {
-        id:1,
+        id: 1,
         img: techPlanHouse,
         label: 'Технический план дома'
     },
     {
-        id:2,
+        id: 2,
         img: techPlanFlat,
         label: 'Технический план квартиры'
     },
     {
-        id:3,
+        id: 3,
         img: techPlanPart,
         label: 'Технический план части здания'
     },
     {
-        id:4,
+        id: 4,
         img: techPlanConstruction,
         label: 'Технический план сооружения'
     },
     {
-        id:5,
+        id: 5,
         img: garage,
         label: 'Оформление гаража'
     },
     {
-        id:6,
+        id: 6,
         img: act,
         label: 'Акт обследования'
     },
@@ -112,22 +122,22 @@ const itemsForTechPlan = [
 
 const itemsForGeo = [
     {
-        id:1,
+        id: 1,
         img: topo,
         label: 'Топографическая съемка'
     },
     {
-        id:2,
+        id: 2,
         img: ispol,
         label: 'Исполнительная съемка'
     },
     {
-        id:3,
+        id: 3,
         img: points,
         label: 'Вынос точек в натуру'
     },
     {
-        id:4,
+        id: 4,
         img: gaz,
         label: 'Бесплатная газификация'
     }
@@ -135,19 +145,19 @@ const itemsForGeo = [
 
 const itemsForZOUIT = [
     {
-        id:1,
+        id: 1,
         img: protectZone,
         label: 'Санитарно-защитные зоны'
     },
     {
-        id:2,
+        id: 2,
         img: saveZone,
         label: 'Охранные зоны'
     },
 
 ]
 
-export const itemsServiceI = [ itemsForLandPlot, itemsForTechPlan, itemsForZOUIT, itemsForGeo ]
+export const itemsServiceI = [itemsForLandPlot, itemsForTechPlan, itemsForZOUIT, itemsForGeo]
 
 
 export const cityListI = [
@@ -394,7 +404,7 @@ export const cityListI = [
     'Ярнема'
 ];
 
-export const fetchStepper = async(body) => await fetch('https://functions.yandexcloud.net/d4eqnehoehoieueo9ih9', {
+export const fetchStepper = async (body) => await fetch('https://functions.yandexcloud.net/d4eqnehoehoieueo9ih9', {
     method: 'POST', // Указываем метод
     headers: {
         'Accept': 'application/json',
