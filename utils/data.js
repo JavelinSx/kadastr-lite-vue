@@ -72,15 +72,20 @@ const itemsForLandPlot = [
     {
         id: 3,
         img: chapter,
-        label: 'Раздел, объединение земельных участков'
+        label: 'Раздел земельных участков'
     },
     {
         id: 4,
+        img: chapter,
+        label: 'Объединение земельных участков'
+    },
+    {
+        id: 5,
         img: forming,
         label: 'Формирование земельного участка'
     },
     {
-        id: 5,
+        id: 6,
         img: selected,
         label: 'Выдел земельной доли'
     },

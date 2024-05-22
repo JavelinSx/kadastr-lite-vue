@@ -34,7 +34,7 @@
     </Teleport>
   
     <v-btn
-      @click="stepperStore.toggleOpenForm"
+      @click="openServiceForm"
       color="success"
       class="rounded-t-0 w-100 mt-4"
       text="Оставить заявку"
@@ -47,20 +47,23 @@
   import { useStepperStore } from '@/stores/stepperStore';
   import { storeToRefs } from 'pinia';
   import { watch } from 'vue';
-	import { toRefs } from 'vue';
   import StepperActions from './StepperActions';
   import StepperHeaders from './StepperHeaders';
   import StepperWindow from './StepperWindow';
+
+  const stepperStore = useStepperStore();
   
   const props = defineProps({
     selectStepOne: Number,
     selectStepTwo: Number,
 		stepValue: Number
   })
+  const openServiceForm = () => {
+    stepperStore.toggleOpenForm()
+    stepperStore.updateStateInProps(props.selectStepOne, props.selectStepTwo, props.stepValue)
+  }
 
-  
-  const stepperStore = useStepperStore();
-	stepperStore.updateStateInProps(props.selectStepOne, props.selectStepTwo, props.stepValue)
+
 
 	const {
 			selectStepOne,
@@ -82,13 +85,13 @@
     z-index: 9;
 		
 		@media (min-width:830px) and (max-width: 1024px){
-			right: 200px;
+			right: 70px;
 		}
 		@media (min-width:1025px) and (max-width: 1366px){
-			right: 380px;
+			right: 250px;
 		}
 		@media (min-width:1367px) and (max-width: 100vw){
-			right: 647px;
+			right: 480px;
 		}
   }
   .stepper-overlay {
@@ -122,7 +125,7 @@
   
   @media (min-width: 768px) {
     .stepper-content {
-      max-width: 650px;
+      max-width: 730px;
     }
   }
   </style>

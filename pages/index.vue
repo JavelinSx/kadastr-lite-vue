@@ -2,31 +2,25 @@
   <v-container class="index-container">
     <v-row class="index-container-phone-row">
       <v-col class="index-phone">
-        <h3>8 (902) 552-20-52</h3>
-        <h3>Андрей Николаевич</h3>
+        <h3>тел: 8 (909) 552-20-52</h3>
+        <h3>Плесецк, ул. Кооперативная 4, 1 этаж </h3>
       </v-col>
     </v-row>
     <v-row class="index-description" justify="center" align="center">
       <v-col cols="12" class="text-center">
         <v-container class="index-title-container pa-0">
           <h1 class="index-title text-h3">
-            Кадастровые и геодезические работы
+            <p>
+              Кадастровый инженер
+            </p>
+            <p>
+              Зуев Андрей Николаевич
+            </p>
           </h1>
-          <v-container class="w-100 d-flex justify-end">
-            <h4 class="index-subtitle text-h6">
-              Уточните границы, оформите недвижимость и гарантируйте точность
-              съемок. Будьте уверены в правильности и законности каждого шага.
-            </h4>
-          </v-container>
-          
           <StepperService :select-step-one=0 :select-step-two=0 :step-value=0></StepperService>
-
         </v-container>
       </v-col>
     </v-row>
-
-
-
   </v-container>
 
   <v-row class="content" v-if="widthControl < 600">
@@ -93,6 +87,7 @@ const widthControl = ref(width)
 }
 
 .index-title-container {
+  position: relative;
   max-width: max-content;
 }
 
